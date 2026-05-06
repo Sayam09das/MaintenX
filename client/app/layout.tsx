@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { ThemeRegistry } from "../components/ThemeRegistry";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -15,7 +16,7 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "MaintenX AI",
   description:
-    "Predictive maintenance dashboard with failure prediction, explainability, and AI recommendations.",
+    "Predictive maintenance dashboard with failure prediction, AI guidance, and explainability.",
 };
 
 export default function RootLayout({
@@ -28,7 +29,9 @@ export default function RootLayout({
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="flex min-h-full flex-col">{children}</body>
+      <body className="flex min-h-full flex-col">
+        <ThemeRegistry>{children}</ThemeRegistry>
+      </body>
     </html>
   );
 }

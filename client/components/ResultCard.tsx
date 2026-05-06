@@ -1,0 +1,98 @@
+"use client";
+
+import { Chip, Grid, Paper, Stack, Typography } from "@mui/material";
+import { motion } from "framer-motion";
+
+type PredictionResult = {
+  failure_prediction: number;
+  failure_probability: number;
+  risk_percentage: number;
+  risk_level: string;
+};
+
+type ResultCardProps = {
+  prediction?: PredictionResult;
+};
+
+const MotionPaper = motion.create(Paper);
+
+function getChipColor(riskLevel?: string): "success" | "warning" | "error" | "default" {
+  if (riskLevel === "High Risk") return "error";
+  if (riskLevel === "Medium Risk") return "warning";
+  if (riskLevel === "Low Risk") return "success";
+  return "default";
+}
+
+export function ResultCard({ prediction }: ResultCardProps) {
+  return (
+    <MotionPaper
+      initial={{ opacity: 0, y: 24 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.45, delay: 0.08 }}
+      sx={{ p: { xs: 2.5, md: 3.5 }, borderRadius: 6 }}
+    >
+      <Stack spacing={3}>
+        <div>
+          <Typography variant="overline" color="text.secondary">
+            Decision Output
+          </Typography>
+          <Typography variant="h2">Prediction Result</Typography>
+        </div>
+        <Stack direction="row" spacing={1.5} alignItems="center" flexWrap="wrap">
+          <Chip
+            label={prediction?.risk_level ?? "Awaiting prediction"}
+            color={getChipColor(prediction?.risk_level)}
+            sx={{ fontWeight: 700 }}
+          />
+          {prediction && (
+            <Typography variant="body2" color="text.secondary">
+              Failure class: {prediction.failure_prediction}
+            </Typography>
+          )}
+        </Stack>
+        <Grid container spacing={2}>
+          {[
+            {
+              label: "Probability",
+              value: prediction
+                ? `${(prediction.failure_probability * 100).toFixed(1)}%`
+                : "--",
+            },
+            {
+              label: "Risk Score",
+              value: prediction ? `${prediction.risk_percentage}%` : "--",
+            },
+            {
+              label: "Status",
+              value: prediction ? "Ready" : "Idle",
+            },
+          ].map((item) => (
+            <Grid key={item.label} size={{ xs: 12, sm: 4 }}>
+              <Paper
+                variant="outlined"
+                sx={{
+                  p: 2.25,
+                  borderRadius: 4,
+                  backgroundColor: "rgba(255,255,255,0.02)",
+                }}
+              >
+                <Typography variant="caption" color="text.secondary">
+                  {item.label}
+                </Typography>
+                <Typography variant="h4" sx={{ mt: 1.25, fontWeight: 700 }}>
+                  {item.value}
+                </Typography>
+              </Paper>
+            </Grid>
+          ))}
+        </Grid>
+        {!prediction && (
+          <Typography variant="body2" color="text.secondary">
+            Submit machine telemetry to generate risk probability, classification, and
+            maintenance guidance.
+          </Typography>
+        )}
+      </Stack>
+    </MotionPaper>
+  );
+}
