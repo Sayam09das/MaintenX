@@ -1,0 +1,64 @@
+# Python bytecode and caches
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.pyre/
+.hypothesis/
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# Build and packaging
+build/
+dist/
+site/
+*.egg-info/
+.eggs/
+pip-wheel-metadata/
+
+# Coverage and test output
+.coverage
+.coverage.*
+htmlcov/
+coverage.xml
+test-results/
+
+# Logs and local runtime files
+*.log
+*.pid
+*.out
+*.err
+
+# Environment and local settings
+.env
+.env.*
+!.env.example
+.python-version
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Editors and OS files
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# Docker overrides
+docker-compose.override.yml
+
+# Project-generated artifacts
+models/
+reports/.matplotlib/
+reports/figures/
+data/raw/
+data/processed/
+
+# Keep sample data in version control
+!data/sample/

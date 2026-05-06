@@ -3,6 +3,7 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
 
+from src.predictive_maintenance.assistant.llm_explainer import generate_risk_explanation
 from src.predictive_maintenance.models.predict import predict_failure
 
 
@@ -74,8 +75,10 @@ def predict(data: MachineData):
     }
 
     result = predict_failure(input_data)
+    explanation = generate_risk_explanation(result, input_data)
 
     return {
         "success": True,
-        "prediction": result
+        "prediction": result,
+        "assistant": explanation
     }
