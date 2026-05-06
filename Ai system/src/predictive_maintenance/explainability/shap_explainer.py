@@ -1,6 +1,13 @@
 import os
 from pathlib import Path
 import sys
+import joblib
+import shap
+import pandas as pd
+import matplotlib
+import matplotlib.pyplot as plt
+
+matplotlib.use("Agg")
 
 PROJECT_ROOT = Path(__file__).resolve().parents[3]
 if str(PROJECT_ROOT) not in sys.path:
@@ -10,12 +17,6 @@ MPL_CONFIG_DIR = os.path.join("reports", ".matplotlib")
 os.makedirs(MPL_CONFIG_DIR, exist_ok=True)
 os.environ["MPLCONFIGDIR"] = MPL_CONFIG_DIR
 
-import joblib
-import shap
-import pandas as pd
-import matplotlib
-matplotlib.use("Agg")
-import matplotlib.pyplot as plt
 
 from src.predictive_maintenance.features.feature_engineering import (
     engineer_features,
