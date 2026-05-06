@@ -1,5 +1,7 @@
 from pathlib import Path
 import sys
+import unittest
+from unittest.mock import patch
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 if str(PROJECT_ROOT) not in sys.path:
@@ -51,45 +53,49 @@ def make_processed_split():
     return x_train, x_test, y_train, y_test
 
 
-def test_train_random_forest_model_uses_engineered_features(monkeypatch, tmp_path):
-    from src.predictive_maintenance.models import train as train_module
+class TestTraining(unittest.TestCase):
+    def test_train_random_forest_model_uses_engineered_features(self):
+        saved = {}
 
-    saved = {}
+        with patch(
+            "src.predictive_maintenance.models.train.load_processed_split",
+            side_effect=make_processed_split,
+        ), patch(
+            "src.predictive_maintenance.models.train.RandomForestClassifier",
+            DummyEstimator,
+        ), patch(
+            "src.predictive_maintenance.models.train.joblib.dump",
+            side_effect=lambda model, path: saved.update({"model": model, "path": path}),
+        ):
+            model, metrics = train_random_forest_model(Path("tmp_rf.pkl"))
 
-    monkeypatch.setattr(train_module, "load_processed_split", make_processed_split)
-    monkeypatch.setattr(train_module, "RandomForestClassifier", DummyEstimator)
-    monkeypatch.setattr(
-        train_module.joblib,
-        "dump",
-        lambda model, path: saved.update({"model": model, "path": path}),
-    )
+        self.assertTrue(model.fitted)
+        self.assertIn("Power proxy", model.saved_input_columns)
+        self.assertEqual(saved["path"], Path("tmp_rf.pkl"))
+        self.assertIn("accuracy", metrics)
 
-    model, metrics = train_random_forest_model(tmp_path / "rf.pkl")
+    def test_train_xgboost_model_uses_sanitized_engineered_features(self):
+        saved = {}
 
-    assert model.fitted is True
-    assert "Power proxy" in model.saved_input_columns
-    assert saved["path"] == tmp_path / "rf.pkl"
-    assert "accuracy" in metrics
+        with patch(
+            "src.predictive_maintenance.models.train.load_processed_split",
+            side_effect=make_processed_split,
+        ), patch(
+            "src.predictive_maintenance.models.train.XGBClassifier",
+            DummyEstimator,
+        ), patch(
+            "src.predictive_maintenance.models.train.joblib.dump",
+            side_effect=lambda model, path: saved.update({"model": model, "path": path}),
+        ):
+            model, metrics = train_xgboost_model(Path("tmp_xgb.pkl"))
+
+        self.assertTrue(model.fitted)
+        self.assertIn("Power_proxy", model.saved_input_columns)
+        self.assertIn("Temperature_delta_K", model.saved_input_columns)
+        self.assertEqual(model.kwargs["scale_pos_weight"], 1.0)
+        self.assertEqual(saved["path"], Path("tmp_xgb.pkl"))
+        self.assertIn("f1_score", metrics)
 
 
-def test_train_xgboost_model_uses_sanitized_engineered_features(monkeypatch, tmp_path):
-    from src.predictive_maintenance.models import train as train_module
-
-    saved = {}
-
-    monkeypatch.setattr(train_module, "load_processed_split", make_processed_split)
-    monkeypatch.setattr(train_module, "XGBClassifier", DummyEstimator)
-    monkeypatch.setattr(
-        train_module.joblib,
-        "dump",
-        lambda model, path: saved.update({"model": model, "path": path}),
-    )
-
-    model, metrics = train_xgboost_model(tmp_path / "xgb.pkl")
-
-    assert model.fitted is True
-    assert "Power_proxy" in model.saved_input_columns
-    assert "Temperature_delta_K" in model.saved_input_columns
-    assert model.kwargs["scale_pos_weight"] == 1.0
-    assert saved["path"] == tmp_path / "xgb.pkl"
-    assert "f1_score" in metrics
+if __name__ == "__main__":
+    unittest.main()

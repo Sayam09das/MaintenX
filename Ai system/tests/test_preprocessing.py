@@ -1,5 +1,6 @@
 from pathlib import Path
 import sys
+import unittest
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 if str(PROJECT_ROOT) not in sys.path:
@@ -35,34 +36,38 @@ def make_sample_dataframe() -> pd.DataFrame:
     )
 
 
-def test_preprocess_dataset_removes_ids_and_encodes_type():
-    dataframe = make_sample_dataframe()
+class TestPreprocessing(unittest.TestCase):
+    def test_preprocess_dataset_removes_ids_and_encodes_type(self):
+        dataframe = make_sample_dataframe()
 
-    features, target = preprocess_dataset(dataframe)
+        features, target = preprocess_dataset(dataframe)
 
-    assert "UDI" not in features.columns
-    assert "Product ID" not in features.columns
-    assert pd.api.types.is_integer_dtype(features["Type"])
-    assert len(features) == len(target) == 6
+        self.assertNotIn("UDI", features.columns)
+        self.assertNotIn("Product ID", features.columns)
+        self.assertTrue(pd.api.types.is_integer_dtype(features["Type"]))
+        self.assertEqual(len(features), 6)
+        self.assertEqual(len(target), 6)
+
+    def test_split_dataset_returns_expected_sizes(self):
+        dataframe = make_sample_dataframe()
+        features, target = preprocess_dataset(dataframe)
+
+        x_train, x_test, y_train, y_test = split_dataset(features, target, test_size=0.33)
+
+        self.assertEqual(len(x_train) + len(x_test), len(features))
+        self.assertEqual(len(y_train) + len(y_test), len(target))
+        self.assertTrue(set(y_train.unique()).issubset({0, 1}))
+        self.assertTrue(set(y_test.unique()).issubset({0, 1}))
+
+    def test_engineer_features_adds_derived_columns(self):
+        dataframe = make_sample_dataframe().drop(columns=["Machine failure"])
+
+        engineered = engineer_features(dataframe)
+
+        self.assertIn("Temperature delta [K]", engineered.columns)
+        self.assertIn("Power proxy", engineered.columns)
+        self.assertIn("Wear stress proxy", engineered.columns)
 
 
-def test_split_dataset_returns_expected_sizes():
-    dataframe = make_sample_dataframe()
-    features, target = preprocess_dataset(dataframe)
-
-    x_train, x_test, y_train, y_test = split_dataset(features, target, test_size=0.33)
-
-    assert len(x_train) + len(x_test) == len(features)
-    assert len(y_train) + len(y_test) == len(target)
-    assert set(y_train.unique()).issubset({0, 1})
-    assert set(y_test.unique()).issubset({0, 1})
-
-
-def test_engineer_features_adds_derived_columns():
-    dataframe = make_sample_dataframe().drop(columns=["Machine failure"])
-
-    engineered = engineer_features(dataframe)
-
-    assert "Temperature delta [K]" in engineered.columns
-    assert "Power proxy" in engineered.columns
-    assert "Wear stress proxy" in engineered.columns
+if __name__ == "__main__":
+    unittest.main()
