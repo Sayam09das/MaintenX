@@ -3,7 +3,9 @@
 import {
   Alert,
   Button,
+  Chip,
   Grid,
+  LinearProgress,
   Paper,
   Stack,
   TextField,
@@ -59,7 +61,12 @@ export function PredictionFormCard({
       initial={{ opacity: 0, y: 24 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.45 }}
-      sx={{ p: { xs: 2.5, md: 3.5 }, borderRadius: 6 }}
+      whileHover={{ y: -3 }}
+      sx={{
+        p: { xs: 2.5, md: 3.5 },
+        borderRadius: 6,
+        boxShadow: "0 24px 70px rgba(0,0,0,0.18)",
+      }}
     >
       <Stack spacing={3}>
         <Stack
@@ -74,10 +81,20 @@ export function PredictionFormCard({
             </Typography>
             <Typography variant="h2">Prediction Form</Typography>
           </div>
-          <Button variant="text" color="inherit" onClick={onReset}>
-            Reset defaults
-          </Button>
+          <Stack direction="row" spacing={1.2} alignItems="center">
+            <Chip
+              label={loading ? "Inference Running" : "Ready"}
+              color={loading ? "warning" : "success"}
+              size="small"
+              sx={{ fontWeight: 700 }}
+            />
+            <Button variant="text" color="inherit" onClick={onReset}>
+              Reset defaults
+            </Button>
+          </Stack>
         </Stack>
+
+        {loading && <LinearProgress color="primary" sx={{ borderRadius: 999, height: 6 }} />}
 
         <Grid container spacing={2}>
           {fields.map((field) => (
@@ -103,7 +120,11 @@ export function PredictionFormCard({
           ))}
         </Grid>
 
-        {error && <Alert severity="error">{error}</Alert>}
+        {error && (
+          <Alert severity="error" sx={{ borderRadius: 3 }}>
+            {error}
+          </Alert>
+        )}
 
         <Stack direction={{ xs: "column", sm: "row" }} spacing={2}>
           <Button variant="contained" size="large" onClick={onSubmit} disabled={loading}>

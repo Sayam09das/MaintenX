@@ -4,6 +4,7 @@ import { Container, Grid, Stack } from "@mui/material";
 import { useState } from "react";
 
 import { AssistantCard } from "../components/AssistantCard";
+import { ExplainabilitySection } from "../components/ExplainabilitySection";
 import { Footer } from "../components/Footer";
 import { Hero } from "../components/Hero";
 import { Navbar } from "../components/Navbar";
@@ -12,6 +13,7 @@ import {
   type FormData,
 } from "../components/PredictionFormCard";
 import { ResultCard } from "../components/ResultCard";
+import { StatsSection } from "../components/StatsSection";
 
 type PredictionResponse = {
   success: boolean;
@@ -138,6 +140,7 @@ export default function Home() {
       <Navbar />
       <main>
         <Hero />
+        <StatsSection />
         <Container maxWidth="xl" sx={{ pb: 8 }}>
           <Grid container spacing={3.5}>
             <Grid size={{ xs: 12, lg: 7 }}>
@@ -153,12 +156,13 @@ export default function Home() {
             </Grid>
             <Grid size={{ xs: 12, lg: 5 }}>
               <Stack spacing={3.5}>
-                <ResultCard prediction={result?.prediction} />
-                <AssistantCard assistant={result?.assistant} />
+                <ResultCard prediction={result?.prediction} loading={loading} error={error} />
+                <AssistantCard assistant={result?.assistant} loading={loading} error={error} />
               </Stack>
             </Grid>
           </Grid>
         </Container>
+        <ExplainabilitySection />
       </main>
       <Footer />
     </>

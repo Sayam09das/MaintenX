@@ -11,7 +11,13 @@ export function Hero() {
     <Container maxWidth="xl" sx={{ pt: { xs: 6, md: 10 }, pb: 6 }}>
       <Grid container spacing={4} alignItems="center">
         <Grid size={{ xs: 12, md: 7 }}>
-          <Stack spacing={3}>
+          <Stack
+            spacing={3}
+            component={motion.div}
+            initial={{ opacity: 0, y: 22 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+          >
             <Chip label="Phase 1 MVP" color="primary" sx={{ alignSelf: "flex-start", fontWeight: 700 }} />
             <Typography variant="h1">
               Predict equipment risk before downtime becomes expensive.

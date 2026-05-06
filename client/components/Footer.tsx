@@ -26,9 +26,14 @@ export function Footer() {
               Predictive maintenance interface for model-driven industrial decisions.
             </Typography>
           </Box>
-          <Typography variant="body2" color="text.secondary">
-            © 2026 MaintenX. Phase 1 MVP with MUI, Framer Motion, and backend-connected prediction flow.
-          </Typography>
+          <Stack spacing={0.5} alignItems={{ xs: "flex-start", md: "flex-end" }}>
+            <Typography variant="body2" color="text.secondary">
+              © 2026 MaintenX. Product polish phase with animated workflow, trust panels, and AI guidance.
+            </Typography>
+            <Typography variant="caption" color="text.secondary">
+              Built with Next.js, MUI, Framer Motion, FastAPI, XGBoost, SHAP, and Gemini.
+            </Typography>
+          </Stack>
         </Stack>
       </Container>
     </Box>
