@@ -1,0 +1,22 @@
+{
+  "generated_for_release": "v1.0.0",
+  "dataset": {
+    "test_samples": 2000,
+    "negative_samples": 1932,
+    "positive_samples": 68
+  },
+  "models": {
+    "xgboost": {
+      "accuracy": 0.999,
+      "precision": 1.0,
+      "recall": 0.9705882352941176,
+      "f1_score": 0.9850746268656716
+    },
+    "random_forest": {
+      "accuracy": 0.9975,
+      "precision": 1.0,
+      "recall": 0.9264705882352942,
+      "f1_score": 0.9618320610687023
+    }
+  }
+}
