@@ -1,0 +1,23 @@
+app:
+  name: "MaintenX AI"
+  version: "1.0.0"
+  description: "Predictive Maintenance + AI Assistant API"
+
+api:
+  host: "127.0.0.1"
+  port: 8000
+  reload: true
+  cors_origins:
+    - "http://localhost:3000"
+    - "http://127.0.0.1:3000"
+
+paths:
+  raw_data: "data/raw/ai4i2020.csv"
+  processed_dir: "data/processed"
+  model_dir: "models"
+  report_dir: "reports"
+  figures_dir: "reports/figures"
+
+frontend:
+  dev_url: "http://localhost:3000"
+  api_base_url: "http://127.0.0.1:8000"
