@@ -1,99 +1,94 @@
-import os
-import pandas as pd
+from pathlib import Path
 
+import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder
 
+from src.predictive_maintenance.data.loader import load_raw_data
 
-# -----------------------------
-# Paths
-# -----------------------------
-RAW_DATA_PATH = "data/raw/ai4i2020.csv"
-PROCESSED_DIR = "data/processed"
-
-os.makedirs(PROCESSED_DIR, exist_ok=True)
-
-
-# -----------------------------
-# Load Dataset
-# -----------------------------
-print("Loading dataset...")
-
-df = pd.read_csv(RAW_DATA_PATH)
-
-print("Dataset loaded successfully!")
-print(df.head())
-
-
-# -----------------------------
-# Remove Unnecessary Columns
-# -----------------------------
-# Remove ID columns if available
-
-columns_to_drop = ["UDI", "Product ID"]
-
-df.drop(columns=columns_to_drop, inplace=True, errors="ignore")
-
-print("\nRemoved ID columns.")
-
-
-# -----------------------------
-# Encode Categorical Columns
-# -----------------------------
-# Encode 'Type' column
-
-if "Type" in df.columns:
-    encoder = LabelEncoder()
-    df["Type"] = encoder.fit_transform(df["Type"])
-
-    print("Encoded 'Type' column.")
-
-
-# -----------------------------
-# Define Features and Target
-# -----------------------------
+RAW_DATA_PATH = Path("data/raw/ai4i2020.csv")
+PROCESSED_DIR = Path("data/processed")
 TARGET_COLUMN = "Machine failure"
-
-X = df.drop(columns=[TARGET_COLUMN])
-y = df[TARGET_COLUMN]
-
-print("\nFeatures and target separated.")
-print(f"Feature Shape: {X.shape}")
-print(f"Target Shape: {y.shape}")
+DROP_COLUMNS = ["UDI", "Product ID"]
 
 
-# -----------------------------
-# Train-Test Split
-# -----------------------------
-X_train, X_test, y_train, y_test = train_test_split(
-    X,
-    y,
-    test_size=0.2,
-    random_state=42,
-    stratify=y
-)
+def preprocess_dataset(dataframe: pd.DataFrame) -> tuple[pd.DataFrame, pd.Series]:
+    df = dataframe.copy()
 
-print("\nTrain-test split completed.")
+    df.drop(columns=DROP_COLUMNS, inplace=True, errors="ignore")
 
-print(f"X_train Shape: {X_train.shape}")
-print(f"X_test Shape: {X_test.shape}")
+    if "Type" in df.columns:
+        encoder = LabelEncoder()
+        df["Type"] = encoder.fit_transform(df["Type"])
+
+    x = df.drop(columns=[TARGET_COLUMN])
+    y = df[TARGET_COLUMN]
+
+    return x, y
 
 
-# -----------------------------
-# Save Processed Files
-# -----------------------------
-X_train.to_csv(f"{PROCESSED_DIR}/X_train.csv", index=False)
-X_test.to_csv(f"{PROCESSED_DIR}/X_test.csv", index=False)
+def split_dataset(
+    features: pd.DataFrame,
+    target: pd.Series,
+    test_size: float = 0.2,
+    random_state: int = 42,
+) -> tuple[pd.DataFrame, pd.DataFrame, pd.Series, pd.Series]:
+    return train_test_split(
+        features,
+        target,
+        test_size=test_size,
+        random_state=random_state,
+        stratify=target,
+    )
 
-y_train.to_csv(f"{PROCESSED_DIR}/y_train.csv", index=False)
-y_test.to_csv(f"{PROCESSED_DIR}/y_test.csv", index=False)
 
-print("\nProcessed files saved successfully!")
+def save_processed_split(
+    x_train: pd.DataFrame,
+    x_test: pd.DataFrame,
+    y_train: pd.Series,
+    y_test: pd.Series,
+    processed_dir: Path | str = PROCESSED_DIR,
+) -> None:
+    output_dir = Path(processed_dir)
+    output_dir.mkdir(parents=True, exist_ok=True)
 
-print("\nSaved Files:")
-print("- X_train.csv")
-print("- X_test.csv")
-print("- y_train.csv")
-print("- y_test.csv")
+    x_train.to_csv(output_dir / "X_train.csv", index=False)
+    x_test.to_csv(output_dir / "X_test.csv", index=False)
+    y_train.to_csv(output_dir / "y_train.csv", index=False)
+    y_test.to_csv(output_dir / "y_test.csv", index=False)
 
-print("\nPreprocessing completed successfully!")
+
+def run_preprocessing() -> tuple[pd.DataFrame, pd.DataFrame, pd.Series, pd.Series]:
+    print("Loading dataset...")
+    df = load_raw_data(RAW_DATA_PATH)
+
+    print("Dataset loaded successfully!")
+    print(df.head())
+
+    x, y = preprocess_dataset(df)
+
+    print("\nFeatures and target separated.")
+    print(f"Feature Shape: {x.shape}")
+    print(f"Target Shape: {y.shape}")
+
+    x_train, x_test, y_train, y_test = split_dataset(x, y)
+
+    print("\nTrain-test split completed.")
+    print(f"X_train Shape: {x_train.shape}")
+    print(f"X_test Shape: {x_test.shape}")
+
+    save_processed_split(x_train, x_test, y_train, y_test)
+
+    print("\nProcessed files saved successfully!")
+    print("\nSaved Files:")
+    print("- X_train.csv")
+    print("- X_test.csv")
+    print("- y_train.csv")
+    print("- y_test.csv")
+    print("\nPreprocessing completed successfully!")
+
+    return x_train, x_test, y_train, y_test
+
+
+if __name__ == "__main__":
+    run_preprocessing()
