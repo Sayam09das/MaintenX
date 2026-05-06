@@ -54,8 +54,8 @@ Thumbs.db
 docker-compose.override.yml
 
 # Project-generated artifacts
-models/
-reports/figures/
+# models/
+# reports/figures/
 data/raw/
 data/processed/
 
