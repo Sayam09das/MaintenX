@@ -19,6 +19,7 @@ export function Navbar() {
       }}
     >
       <Container maxWidth="xl">
+        <Box component="nav" aria-label="Primary navigation">
         <MotionToolbar
           initial={{ opacity: 0, y: -14 }}
           animate={{ opacity: 1, y: 0 }}
@@ -51,14 +52,21 @@ export function Navbar() {
           </Stack>
 
           <Stack direction="row" spacing={1.5} alignItems="center">
-            <Button color="inherit">Platform</Button>
-            <Button color="inherit">Prediction</Button>
-            <Button color="inherit">Assistant</Button>
+            <Button color="inherit" component="a" href="#platform">
+              Platform
+            </Button>
+            <Button color="inherit" component="a" href="#prediction">
+              Prediction
+            </Button>
+            <Button color="inherit" component="a" href="#assistant">
+              Assistant
+            </Button>
             <Button variant="contained" startIcon={<Sparkles size={16} />}>
               Live Demo
             </Button>
           </Stack>
         </MotionToolbar>
+        </Box>
       </Container>
     </AppBar>
   );

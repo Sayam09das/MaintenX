@@ -30,6 +30,9 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col">
+        <a className="skip-link" href="#main-content">
+          Skip to main content
+        </a>
         <ThemeRegistry>{children}</ThemeRegistry>
       </body>
     </html>

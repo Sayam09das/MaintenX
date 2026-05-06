@@ -13,20 +13,8 @@ import {
 } from "@mui/material";
 import { motion } from "framer-motion";
 import type { ChangeEvent } from "react";
-
-export type FormData = {
-  Type: number;
-  Air_temperature_K: number;
-  Process_temperature_K: number;
-  Rotational_speed_rpm: number;
-  Torque_Nm: number;
-  Tool_wear_min: number;
-  TWF: number;
-  HDF: number;
-  PWF: number;
-  OSF: number;
-  RNF: number;
-};
+import { SectionShell } from "./common/SectionShell";
+import type { FormData } from "../types/prediction";
 
 type FieldConfig = {
   key: keyof FormData;
@@ -43,6 +31,7 @@ type PredictionFormCardProps = {
   onChange: (event: ChangeEvent<HTMLInputElement>) => void;
   onReset: () => void;
   onSubmit: () => void;
+  apiBaseUrl: string;
 };
 
 const MotionPaper = motion.create(Paper);
@@ -55,6 +44,7 @@ export function PredictionFormCard({
   onChange,
   onReset,
   onSubmit,
+  apiBaseUrl,
 }: PredictionFormCardProps) {
   return (
     <MotionPaper
@@ -75,12 +65,13 @@ export function PredictionFormCard({
           alignItems={{ xs: "flex-start", sm: "center" }}
           spacing={2}
         >
-          <div>
-            <Typography variant="overline" color="text.secondary">
-              Sensor Inputs
-            </Typography>
-            <Typography variant="h2">Prediction Form</Typography>
-          </div>
+          <SectionShell
+            id="prediction"
+            eyebrow="Sensor Inputs"
+            title="Prediction Form"
+          >
+            <></>
+          </SectionShell>
           <Stack direction="row" spacing={1.2} alignItems="center">
             <Chip
               label={loading ? "Inference Running" : "Ready"}
@@ -94,7 +85,13 @@ export function PredictionFormCard({
           </Stack>
         </Stack>
 
-        {loading && <LinearProgress color="primary" sx={{ borderRadius: 999, height: 6 }} />}
+        {loading && (
+          <LinearProgress
+            color="primary"
+            sx={{ borderRadius: 999, height: 6 }}
+            aria-label="Prediction request in progress"
+          />
+        )}
 
         <Grid container spacing={2}>
           {fields.map((field) => (
@@ -107,6 +104,7 @@ export function PredictionFormCard({
                 <TextField
                   type="number"
                   name={field.key}
+                  aria-label={field.label}
                   value={formData[field.key]}
                   onChange={onChange}
                   slotProps={{
@@ -121,18 +119,27 @@ export function PredictionFormCard({
         </Grid>
 
         {error && (
-          <Alert severity="error" sx={{ borderRadius: 3 }}>
+          <Alert severity="error" sx={{ borderRadius: 3 }} role="status" aria-live="polite">
             {error}
           </Alert>
         )}
 
         <Stack direction={{ xs: "column", sm: "row" }} spacing={2}>
-          <Button variant="contained" size="large" onClick={onSubmit} disabled={loading}>
+          <Button
+            variant="contained"
+            size="large"
+            onClick={onSubmit}
+            disabled={loading}
+            aria-label="Submit predictive maintenance request"
+          >
             {loading ? "Running prediction..." : "Predict failure"}
           </Button>
           <Button variant="outlined" size="large" color="inherit" onClick={onReset}>
             Clear results
           </Button>
+          <Typography variant="caption" color="text.secondary" sx={{ alignSelf: "center" }}>
+            API: {apiBaseUrl}
+          </Typography>
         </Stack>
       </Stack>
     </MotionPaper>

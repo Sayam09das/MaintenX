@@ -3,6 +3,7 @@
 import { Box, Chip, Container, Grid, Paper, Stack, Typography } from "@mui/material";
 import { motion } from "framer-motion";
 import { Eye, GaugeCircle, Wrench } from "lucide-react";
+import { SectionShell } from "./common/SectionShell";
 
 const MotionPaper = motion.create(Paper);
 
@@ -37,12 +38,14 @@ export function ExplainabilitySection() {
             sx={{ p: { xs: 2.8, md: 3.5 }, borderRadius: 6, height: "100%" }}
           >
             <Stack spacing={2.5}>
-              <Chip label="Trust & Explainability" color="secondary" sx={{ alignSelf: "flex-start", fontWeight: 700 }} />
-              <Typography variant="h2">Make predictions understandable, not just accurate.</Typography>
-              <Typography variant="body1" color="text.secondary" sx={{ lineHeight: 1.85 }}>
-                MaintenX combines model inference with explanation and recommendation layers so
-                engineering teams can review why a machine is risky and what action should happen next.
-              </Typography>
+              <SectionShell
+                id="explainability"
+                chipLabel="Trust & Explainability"
+                title="Make predictions understandable, not just accurate."
+                description="MaintenX combines model inference with explanation and recommendation layers so engineering teams can review why a machine is risky and what action should happen next."
+              >
+                <></>
+              </SectionShell>
               <Box
                 sx={{
                   p: 2.5,

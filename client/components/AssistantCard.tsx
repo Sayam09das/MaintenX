@@ -2,6 +2,7 @@
 
 import { Alert, Paper, Skeleton, Stack, Typography } from "@mui/material";
 import { motion } from "framer-motion";
+import { SectionShell } from "./common/SectionShell";
 
 type AssistantPayload = {
   ai_explanation: string;
@@ -25,13 +26,10 @@ export function AssistantCard({ assistant, loading = false, error = null }: Assi
       whileHover={{ y: -3 }}
       sx={{ p: { xs: 2.5, md: 3.5 }, borderRadius: 6, boxShadow: "0 24px 70px rgba(0,0,0,0.18)" }}
     >
-      <Stack spacing={3}>
-        <div>
-          <Typography variant="overline" color="text.secondary">
-            AI Assistant
-          </Typography>
-          <Typography variant="h2">Maintenance Guidance</Typography>
-        </div>
+      <Stack spacing={3} aria-live="polite" id="assistant">
+        <SectionShell eyebrow="AI Assistant" title="Maintenance Guidance">
+          <></>
+        </SectionShell>
         <Paper variant="outlined" sx={{ p: 2.5, borderRadius: 4 }}>
           <Typography variant="subtitle2" color="text.secondary">
             Explanation
@@ -67,12 +65,12 @@ export function AssistantCard({ assistant, loading = false, error = null }: Assi
           )}
         </Paper>
         {assistant && !loading && (
-          <Alert severity="info" sx={{ borderRadius: 3 }}>
+          <Alert severity="info" sx={{ borderRadius: 3 }} role="status">
             Assistant response is synced to the latest prediction output.
           </Alert>
         )}
         {error && !loading && (
-          <Alert severity="warning" sx={{ borderRadius: 3 }}>
+          <Alert severity="warning" sx={{ borderRadius: 3 }} role="status">
             Assistant guidance is unavailable until the API request succeeds.
           </Alert>
         )}

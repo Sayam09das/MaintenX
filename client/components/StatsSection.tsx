@@ -3,6 +3,7 @@
 import { Container, Grid, Paper, Stack, Typography } from "@mui/material";
 import { motion } from "framer-motion";
 import { BarChart3, Brain, Shield, Zap } from "lucide-react";
+import { SectionShell } from "./common/SectionShell";
 
 const MotionPaper = motion.create(Paper);
 
@@ -36,6 +37,14 @@ const stats = [
 export function StatsSection() {
   return (
     <Container maxWidth="xl" sx={{ pb: 6 }}>
+      <SectionShell
+        id="metrics"
+        eyebrow="Platform Snapshot"
+        title="Core Metrics and Reliability Signals"
+        description="A compact benchmark and product-readiness layer to help teams quickly understand performance, delivery flow, and AI support status."
+      >
+        <></>
+      </SectionShell>
       <Grid container spacing={2.5}>
         {stats.map((stat, index) => (
           <Grid key={stat.label} size={{ xs: 12, sm: 6, lg: 3 }}>

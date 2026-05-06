@@ -2,6 +2,7 @@
 
 import { Alert, Chip, Grid, Paper, Skeleton, Stack, Typography } from "@mui/material";
 import { motion } from "framer-motion";
+import { SectionShell } from "./common/SectionShell";
 
 type PredictionResult = {
   failure_prediction: number;
@@ -34,13 +35,10 @@ export function ResultCard({ prediction, loading = false, error = null }: Result
       whileHover={{ y: -3 }}
       sx={{ p: { xs: 2.5, md: 3.5 }, borderRadius: 6, boxShadow: "0 24px 70px rgba(0,0,0,0.18)" }}
     >
-      <Stack spacing={3}>
-        <div>
-          <Typography variant="overline" color="text.secondary">
-            Decision Output
-          </Typography>
-          <Typography variant="h2">Prediction Result</Typography>
-        </div>
+      <Stack spacing={3} aria-live="polite">
+        <SectionShell id="platform" eyebrow="Decision Output" title="Prediction Result">
+          <></>
+        </SectionShell>
         <Stack direction="row" spacing={1.5} alignItems="center" flexWrap="wrap">
           <Chip
             label={loading ? "Analyzing" : prediction?.risk_level ?? "Awaiting prediction"}
@@ -94,12 +92,12 @@ export function ResultCard({ prediction, loading = false, error = null }: Result
           ))}
         </Grid>
         {prediction && !loading && (
-          <Alert severity="success" sx={{ borderRadius: 3 }}>
+          <Alert severity="success" sx={{ borderRadius: 3 }} role="status">
             Prediction completed successfully. Review the risk level and assistant guidance.
           </Alert>
         )}
         {error && !loading && (
-          <Alert severity="error" sx={{ borderRadius: 3 }}>
+          <Alert severity="error" sx={{ borderRadius: 3 }} role="status">
             Prediction request failed. Check backend availability and retry.
           </Alert>
         )}
