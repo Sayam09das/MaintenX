@@ -1,0 +1,13 @@
+services:
+  maintenx-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: maintenx-api
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+    command: uvicorn src.predictive_maintenance.api.main:app --host 0.0.0.0 --port 8000 --reload
+    environment:
+      FRONTEND_ORIGIN: http://localhost:3000

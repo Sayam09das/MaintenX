@@ -1,0 +1,35 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "maintenx-ai"
+version = "1.0.0"
+description = "Predictive maintenance backend with FastAPI, XGBoost, SHAP, and AI recommendations."
+readme = "../README.md"
+requires-python = ">=3.11"
+authors = [
+  { name = "Sayam Das" }
+]
+dependencies = [
+  "fastapi==0.115.12",
+  "uvicorn[standard]==0.34.2",
+  "joblib==1.5.2",
+  "matplotlib==3.10.3",
+  "pandas==2.3.0",
+  "PyYAML==6.0.2",
+  "scikit-learn==1.7.0",
+  "seaborn==0.13.2",
+  "shap==0.49.1",
+  "xgboost==3.0.2",
+]
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.unittest]
+start-directory = "tests"
+pattern = "test_*.py"
