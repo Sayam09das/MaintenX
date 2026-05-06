@@ -1,7 +1,7 @@
 from fastapi import APIRouter
 from pydantic import BaseModel
 
-from src.predictive_maintenance.assistant.llm_explainer import generate_risk_explanation
+from src.predictive_maintenance.assistant.gemini_assistant import generate_gemini_explanation
 from src.predictive_maintenance.models.predict import predict_failure
 from src.predictive_maintenance.utils.logger import get_logger
 
@@ -56,7 +56,7 @@ def predict(data: MachineData):
     logger.info("Running prediction for machine type %s", data.Type)
 
     result = predict_failure(input_data)
-    explanation = generate_risk_explanation(result, input_data)
+    explanation = generate_gemini_explanation(result, input_data)
 
     return {
         "success": True,
