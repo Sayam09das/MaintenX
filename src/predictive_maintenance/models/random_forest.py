@@ -1,5 +1,3 @@
-# src/predictive_maintenance/models/random_forest.py
-
 import os
 import joblib
 import pandas as pd
