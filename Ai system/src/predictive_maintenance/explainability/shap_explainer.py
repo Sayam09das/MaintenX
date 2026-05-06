@@ -1,4 +1,10 @@
 import os
+from pathlib import Path
+import sys
+
+PROJECT_ROOT = Path(__file__).resolve().parents[3]
+if str(PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(PROJECT_ROOT))
 
 MPL_CONFIG_DIR = os.path.join("reports", ".matplotlib")
 os.makedirs(MPL_CONFIG_DIR, exist_ok=True)
@@ -11,29 +17,22 @@ import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 
+from src.predictive_maintenance.features.feature_engineering import (
+    engineer_features,
+    sanitize_feature_names,
+)
+
 MODEL_PATH = "models/xgboost.pkl"
 DATA_PATH = "data/processed/X_test.csv"
 REPORT_DIR = "reports/figures"
 
 os.makedirs(REPORT_DIR, exist_ok=True)
-
-
-def sanitize_feature_names(dataframe: pd.DataFrame) -> pd.DataFrame:
-    """Normalize feature names to match the trained XGBoost model."""
-    sanitized = dataframe.copy()
-    sanitized.columns = (
-        sanitized.columns.astype(str)
-        .str.replace(r"[\[\]<]", "", regex=True)
-        .str.replace(r"\s+", "_", regex=True)
-    )
-    return sanitized
-
-
 def generate_shap_explanation():
     print("Loading model and test data...")
 
     model = joblib.load(MODEL_PATH)
     X_test = pd.read_csv(DATA_PATH)
+    X_test = engineer_features(X_test)
     X_test = sanitize_feature_names(X_test)
 
     print("Generating SHAP explanations...")
