@@ -54,11 +54,18 @@ Thumbs.db
 docker-compose.override.yml
 
 # Project-generated artifacts
-models/
 reports/.matplotlib/
 reports/figures/
 data/raw/
 data/processed/
 
+# Keep committed model artifacts
+!models/
+!models/xgboost.pkl
+!models/random_forest.pkl
+
 # Keep sample data in version control
 !data/sample/
+
+# Frontend env files
+frontend/.env.local
