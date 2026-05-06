@@ -1,65 +1,164 @@
-import Image from "next/image";
+"use client";
+
+import { useState } from "react";
+
+type FormData = {
+  Type: number;
+  Air_temperature_K: number;
+  Process_temperature_K: number;
+  Rotational_speed_rpm: number;
+  Torque_Nm: number;
+  Tool_wear_min: number;
+  TWF: number;
+  HDF: number;
+  PWF: number;
+  OSF: number;
+  RNF: number;
+};
+
+type PredictionResponse = {
+  success: boolean;
+  prediction: {
+    failure_prediction: number;
+    failure_probability: number;
+    risk_percentage: number;
+    risk_level: string;
+  };
+  assistant?: {
+    ai_explanation: string;
+    maintenance_recommendation: string;
+  };
+};
 
 export default function Home() {
+  const [formData, setFormData] = useState<FormData>({
+    Type: 1,
+    Air_temperature_K: 298,
+    Process_temperature_K: 308,
+    Rotational_speed_rpm: 1500,
+    Torque_Nm: 40,
+    Tool_wear_min: 0,
+    TWF: 0,
+    HDF: 0,
+    PWF: 0,
+    OSF: 0,
+    RNF: 0,
+  });
+
+  const [loading, setLoading] = useState(false);
+  const [result, setResult] = useState<PredictionResponse | null>(null);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData((prev) => ({
+      ...prev,
+      [e.target.name]: Number(e.target.value),
+    }));
+  };
+
+  const handleSubmit = async () => {
+    try {
+      setLoading(true);
+
+      const response = await fetch("http://127.0.0.1:8000/predict", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (!response.ok) {
+        throw new Error(`Request failed with status ${response.status}`);
+      }
+
+      const data: PredictionResponse = await response.json();
+      setResult(data);
+    } catch (error) {
+      console.error(error);
+      alert("Prediction failed");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const fields: Array<keyof FormData> = [
+    "Type",
+    "Air_temperature_K",
+    "Process_temperature_K",
+    "Rotational_speed_rpm",
+    "Torque_Nm",
+    "Tool_wear_min",
+    "TWF",
+    "HDF",
+    "PWF",
+    "OSF",
+    "RNF",
+  ];
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <main className="min-h-screen bg-black px-8 py-12 text-white">
+      <div className="mx-auto max-w-4xl">
+        <h1 className="mb-2 text-5xl font-bold">MaintenX AI</h1>
+        <p className="mb-10 text-gray-400">
+          Predictive Maintenance + AI Assistant
+        </p>
+
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+          {fields.map((field) => (
+            <div key={field}>
+              <label className="mb-2 block text-sm text-gray-300">
+                {field}
+              </label>
+
+              <input
+                type="number"
+                step="any"
+                name={field}
+                value={formData[field]}
+                onChange={handleChange}
+                className="w-full rounded-xl border border-zinc-700 bg-zinc-900 p-3 outline-none"
+              />
+            </div>
+          ))}
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
+
+        <button
+          onClick={handleSubmit}
+          disabled={loading}
+          className="mt-8 w-full rounded-xl bg-white p-4 font-semibold text-black transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
+        >
+          {loading ? "Predicting..." : "Predict Failure"}
+        </button>
+
+        {result && (
+          <div className="mt-10 rounded-2xl border border-zinc-800 bg-zinc-900 p-6">
+            <h2 className="mb-4 text-2xl font-bold">Prediction Result</h2>
+
+            <div className="space-y-2 text-sm text-zinc-200">
+              <p>
+                Failure Prediction: {result.prediction.failure_prediction}
+              </p>
+              <p>
+                Failure Probability: {result.prediction.failure_probability}
+              </p>
+              <p>Risk Percentage: {result.prediction.risk_percentage}%</p>
+              <p>Risk Level: {result.prediction.risk_level}</p>
+            </div>
+
+            {result.assistant && (
+              <div className="mt-6 space-y-3 border-t border-zinc-800 pt-6">
+                <h3 className="text-xl font-semibold">AI Assistant</h3>
+                <p className="text-zinc-300">
+                  {result.assistant.ai_explanation}
+                </p>
+                <p className="text-zinc-300">
+                  {result.assistant.maintenance_recommendation}
+                </p>
+              </div>
+            )}
+          </div>
+        )}
+      </div>
+    </main>
   );
 }
