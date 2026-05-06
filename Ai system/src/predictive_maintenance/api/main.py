@@ -2,95 +2,25 @@
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel
 
-from src.predictive_maintenance.assistant.llm_explainer import generate_risk_explanation
-from src.predictive_maintenance.models.predict import predict_failure
+from src.predictive_maintenance.api.routes import router
+from src.predictive_maintenance.utils.config import get_settings
+
+settings = get_settings()
 
 
-# -----------------------------
-# FastAPI App
-# -----------------------------
 app = FastAPI(
-    title="MaintenX AI",
-    description="Predictive Maintenance + AI Assistant API",
-    version="1.0.0",
+    title=settings.app_name,
+    description=settings.app_description,
+    version=settings.app_version,
 )
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        "http://localhost:3000",
-        "http://127.0.0.1:3000",
-    ],
+    allow_origins=settings.cors_origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-
-# -----------------------------
-# Input Schema
-# -----------------------------
-class MachineData(BaseModel):
-    Type: int
-    Air_temperature_K: float
-    Process_temperature_K: float
-    Rotational_speed_rpm: int
-    Torque_Nm: float
-    Tool_wear_min: int
-    TWF: int
-    HDF: int
-    PWF: int
-    OSF: int
-    RNF: int
-
-
-# -----------------------------
-# Root Endpoint
-# -----------------------------
-@app.get("/")
-def home():
-    return {
-        "message": "MaintenX AI API is running"
-    }
-
-
-# -----------------------------
-# Health Check Endpoint
-# -----------------------------
-@app.get("/health")
-def health_check():
-    return {
-        "status": "healthy"
-    }
-
-
-# -----------------------------
-# Prediction Endpoint
-# -----------------------------
-@app.post("/predict")
-def predict(data: MachineData):
-
-    input_data = {
-        "Type": data.Type,
-        "Air temperature [K]": data.Air_temperature_K,
-        "Process temperature [K]": data.Process_temperature_K,
-        "Rotational speed [rpm]": data.Rotational_speed_rpm,
-        "Torque [Nm]": data.Torque_Nm,
-        "Tool wear [min]": data.Tool_wear_min,
-        "TWF": data.TWF,
-        "HDF": data.HDF,
-        "PWF": data.PWF,
-        "OSF": data.OSF,
-        "RNF": data.RNF,
-    }
-
-    result = predict_failure(input_data)
-    explanation = generate_risk_explanation(result, input_data)
-
-    return {
-        "success": True,
-        "prediction": result,
-        "assistant": explanation
-    }
+app.include_router(router)
