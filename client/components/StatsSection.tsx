@@ -36,7 +36,7 @@ const stats = [
 
 export function StatsSection() {
   return (
-    <Container maxWidth="xl" sx={{ pb: 6 }}>
+    <Container maxWidth="xl" sx={{ pb: { xs: 5, md: 6 } }}>
       <SectionShell
         id="metrics"
         eyebrow="Platform Snapshot"
@@ -45,7 +45,7 @@ export function StatsSection() {
       >
         <></>
       </SectionShell>
-      <Grid container spacing={2.5}>
+      <Grid container spacing={{ xs: 2, md: 2.5 }}>
         {stats.map((stat, index) => (
           <Grid key={stat.label} size={{ xs: 12, sm: 6, lg: 3 }}>
             <MotionPaper
@@ -54,8 +54,8 @@ export function StatsSection() {
               viewport={{ once: true, amount: 0.25 }}
               transition={{ duration: 0.45, delay: index * 0.08 }}
               sx={{
-                p: 2.6,
-                borderRadius: 5,
+                p: { xs: 2.2, sm: 2.6 },
+                borderRadius: { xs: 4, sm: 5 },
                 height: "100%",
                 background:
                   "linear-gradient(180deg, rgba(17,25,38,0.9) 0%, rgba(11,18,28,0.92) 100%)",
@@ -65,7 +65,10 @@ export function StatsSection() {
               <Stack spacing={1.5}>
                 <Stack direction="row" spacing={1.2} alignItems="center" color="primary.main">
                   {stat.icon}
-                  <Typography variant="caption" sx={{ letterSpacing: "0.16em", textTransform: "uppercase" }}>
+                  <Typography
+                    variant="caption"
+                    sx={{ letterSpacing: "0.12em", textTransform: "uppercase", lineHeight: 1.5 }}
+                  >
                     {stat.label}
                   </Typography>
                 </Stack>

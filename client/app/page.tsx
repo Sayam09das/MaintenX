@@ -51,7 +51,7 @@ export default function Home() {
     } catch (submissionError) {
       console.error(submissionError);
       setError(
-        "Unable to reach the prediction API. Make sure the FastAPI server is running on http://127.0.0.1:8000.",
+        `Unable to reach the prediction API at ${apiBaseUrl}. Check that the backend is running and the public API URL is configured correctly.`,
       );
     } finally {
       setLoading(false);

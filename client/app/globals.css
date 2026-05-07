@@ -18,12 +18,14 @@
 
 html {
   background: var(--background);
+  overflow-x: hidden;
 }
 
 body {
   min-height: 100vh;
   color: var(--foreground);
   font-family: var(--font-geist-sans), sans-serif;
+  overflow-x: hidden;
 }
 
 .skip-link {
@@ -54,7 +56,7 @@ input {
 }
 
 main {
-  overflow-x: clip;
+  overflow-x: hidden;
 }
 
 ::selection {

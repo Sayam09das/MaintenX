@@ -8,8 +8,8 @@ const MotionPaper = motion.create(Paper);
 
 export function Hero() {
   return (
-    <Container maxWidth="xl" sx={{ pt: { xs: 6, md: 10 }, pb: 6 }}>
-      <Grid container spacing={4} alignItems="center">
+    <Container maxWidth="xl" sx={{ pt: { xs: 5, sm: 6, md: 10 }, pb: { xs: 5, md: 6 } }}>
+      <Grid container spacing={{ xs: 3.5, md: 4 }} alignItems="center">
         <Grid size={{ xs: 12, md: 7 }}>
           <Stack
             spacing={3}
@@ -22,15 +22,24 @@ export function Hero() {
             <Typography variant="h1">
               Predict equipment risk before downtime becomes expensive.
             </Typography>
-            <Typography variant="h6" color="text.secondary" sx={{ maxWidth: 720, fontWeight: 400 }}>
+            <Typography
+              variant="h6"
+              color="text.secondary"
+              sx={{ maxWidth: 720, fontWeight: 400, pr: { md: 2 } }}
+            >
               MaintenX combines machine failure prediction, explainability, and AI-assisted
               recommendations in one operator-ready interface.
             </Typography>
-            <Stack direction={{ xs: "column", sm: "row" }} spacing={2}>
-              <Button variant="contained" size="large">
+            <Stack direction={{ xs: "column", sm: "row" }} spacing={2} sx={{ width: "100%" }}>
+              <Button variant="contained" size="large" fullWidth={false} sx={{ width: { xs: "100%", sm: "auto" } }}>
                 Run Prediction
               </Button>
-              <Button variant="outlined" size="large" color="inherit">
+              <Button
+                variant="outlined"
+                size="large"
+                color="inherit"
+                sx={{ width: { xs: "100%", sm: "auto" } }}
+              >
                 View API Workflow
               </Button>
             </Stack>
@@ -42,8 +51,8 @@ export function Hero() {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             transition={{ duration: 0.55, delay: 0.1 }}
             sx={{
-              p: 3,
-              borderRadius: 6,
+              p: { xs: 2.25, sm: 3 },
+              borderRadius: { xs: 4, sm: 6 },
               background:
                 "linear-gradient(180deg, rgba(17,25,38,0.96) 0%, rgba(10,16,24,0.96) 100%)",
               boxShadow: "0 24px 70px rgba(0,0,0,0.26)",
@@ -70,8 +79,8 @@ export function Hero() {
                 <Box
                   key={item.title}
                   sx={{
-                    p: 2.2,
-                    borderRadius: 4,
+                    p: { xs: 1.8, sm: 2.2 },
+                    borderRadius: { xs: 3, sm: 4 },
                     backgroundColor: "rgba(255,255,255,0.03)",
                     border: "1px solid rgba(255,255,255,0.06)",
                   }}

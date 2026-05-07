@@ -26,7 +26,7 @@ export function SectionShell({
         <Chip label={chipLabel} color="secondary" sx={{ mb: 2, fontWeight: 700 }} />
       ) : null}
       {eyebrow ? (
-        <Typography variant="overline" color="text.secondary">
+        <Typography variant="overline" color="text.secondary" sx={{ lineHeight: 1.6 }}>
           {eyebrow}
         </Typography>
       ) : null}
@@ -34,7 +34,11 @@ export function SectionShell({
         {title}
       </Typography>
       {description ? (
-        <Typography variant="body1" color="text.secondary" sx={{ mt: 1.5, mb: 3, lineHeight: 1.85 }}>
+        <Typography
+          variant="body1"
+          color="text.secondary"
+          sx={{ mt: 1.5, mb: { xs: 2.5, md: 3 }, lineHeight: 1.85, maxWidth: 780 }}
+        >
           {description}
         </Typography>
       ) : null}

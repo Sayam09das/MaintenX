@@ -27,15 +27,15 @@ const trustCards = [
 
 export function ExplainabilitySection() {
   return (
-    <Container maxWidth="xl" sx={{ py: 6 }}>
-      <Grid container spacing={3.5} alignItems="stretch">
+    <Container maxWidth="xl" sx={{ py: { xs: 5, md: 6 } }}>
+      <Grid container spacing={{ xs: 2.5, md: 3.5 }} alignItems="stretch">
         <Grid size={{ xs: 12, lg: 5 }}>
           <MotionPaper
             initial={{ opacity: 0, x: -24 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, amount: 0.2 }}
             transition={{ duration: 0.5 }}
-            sx={{ p: { xs: 2.8, md: 3.5 }, borderRadius: 6, height: "100%" }}
+            sx={{ p: { xs: 2.3, sm: 2.8, md: 3.5 }, borderRadius: { xs: 4, sm: 6 }, height: "100%" }}
           >
             <Stack spacing={2.5}>
               <SectionShell
@@ -48,8 +48,8 @@ export function ExplainabilitySection() {
               </SectionShell>
               <Box
                 sx={{
-                  p: 2.5,
-                  borderRadius: 4,
+                  p: { xs: 2, sm: 2.5 },
+                  borderRadius: { xs: 3, sm: 4 },
                   background: "linear-gradient(135deg, rgba(224,177,93,0.14), rgba(77,208,225,0.10))",
                   border: "1px solid rgba(255,255,255,0.08)",
                 }}
@@ -66,7 +66,7 @@ export function ExplainabilitySection() {
           </MotionPaper>
         </Grid>
         <Grid size={{ xs: 12, lg: 7 }}>
-          <Grid container spacing={2.5}>
+          <Grid container spacing={{ xs: 2, md: 2.5 }}>
             {trustCards.map((card, index) => (
               <Grid key={card.title} size={{ xs: 12 }}>
                 <MotionPaper
@@ -74,9 +74,9 @@ export function ExplainabilitySection() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, amount: 0.2 }}
                   transition={{ duration: 0.45, delay: index * 0.08 }}
-                  sx={{ p: 2.8, borderRadius: 5 }}
+                  sx={{ p: { xs: 2.1, sm: 2.8 }, borderRadius: { xs: 4, sm: 5 } }}
                 >
-                  <Stack direction="row" spacing={2}>
+                  <Stack direction="row" spacing={2} alignItems="flex-start">
                     <Box
                       sx={{
                         display: "grid",

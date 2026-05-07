@@ -24,13 +24,17 @@ export function AssistantCard({ assistant, loading = false, error = null }: Assi
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.45, delay: 0.14 }}
       whileHover={{ y: -3 }}
-      sx={{ p: { xs: 2.5, md: 3.5 }, borderRadius: 6, boxShadow: "0 24px 70px rgba(0,0,0,0.18)" }}
+      sx={{
+        p: { xs: 2.5, md: 3.5 },
+        borderRadius: { xs: 4, sm: 6 },
+        boxShadow: "0 24px 70px rgba(0,0,0,0.18)",
+      }}
     >
       <Stack spacing={3} aria-live="polite" id="assistant">
         <SectionShell eyebrow="AI Assistant" title="Maintenance Guidance">
           <></>
         </SectionShell>
-        <Paper variant="outlined" sx={{ p: 2.5, borderRadius: 4 }}>
+        <Paper variant="outlined" sx={{ p: { xs: 2, sm: 2.5 }, borderRadius: { xs: 3, sm: 4 } }}>
           <Typography variant="subtitle2" color="text.secondary">
             Explanation
           </Typography>
@@ -47,7 +51,7 @@ export function AssistantCard({ assistant, loading = false, error = null }: Assi
             </Typography>
           )}
         </Paper>
-        <Paper variant="outlined" sx={{ p: 2.5, borderRadius: 4 }}>
+        <Paper variant="outlined" sx={{ p: { xs: 2, sm: 2.5 }, borderRadius: { xs: 3, sm: 4 } }}>
           <Typography variant="subtitle2" color="text.secondary">
             Recommendation
           </Typography>

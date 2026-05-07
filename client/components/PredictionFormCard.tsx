@@ -54,7 +54,7 @@ export function PredictionFormCard({
       whileHover={{ y: -3 }}
       sx={{
         p: { xs: 2.5, md: 3.5 },
-        borderRadius: 6,
+        borderRadius: { xs: 4, sm: 6 },
         boxShadow: "0 24px 70px rgba(0,0,0,0.18)",
       }}
     >
@@ -72,14 +72,24 @@ export function PredictionFormCard({
           >
             <></>
           </SectionShell>
-          <Stack direction="row" spacing={1.2} alignItems="center">
+          <Stack
+            direction={{ xs: "column", sm: "row" }}
+            spacing={1.2}
+            alignItems={{ xs: "flex-start", sm: "center" }}
+            sx={{ width: { xs: "100%", sm: "auto" } }}
+          >
             <Chip
               label={loading ? "Inference Running" : "Ready"}
               color={loading ? "warning" : "success"}
               size="small"
               sx={{ fontWeight: 700 }}
             />
-            <Button variant="text" color="inherit" onClick={onReset}>
+            <Button
+              variant="text"
+              color="inherit"
+              onClick={onReset}
+              sx={{ width: { xs: "100%", sm: "auto" } }}
+            >
               Reset defaults
             </Button>
           </Stack>
@@ -131,13 +141,24 @@ export function PredictionFormCard({
             onClick={onSubmit}
             disabled={loading}
             aria-label="Submit predictive maintenance request"
+            sx={{ width: { xs: "100%", sm: "auto" } }}
           >
             {loading ? "Running prediction..." : "Predict failure"}
           </Button>
-          <Button variant="outlined" size="large" color="inherit" onClick={onReset}>
+          <Button
+            variant="outlined"
+            size="large"
+            color="inherit"
+            onClick={onReset}
+            sx={{ width: { xs: "100%", sm: "auto" } }}
+          >
             Clear results
           </Button>
-          <Typography variant="caption" color="text.secondary" sx={{ alignSelf: "center" }}>
+          <Typography
+            variant="caption"
+            color="text.secondary"
+            sx={{ alignSelf: { xs: "flex-start", sm: "center" }, wordBreak: "break-all" }}
+          >
             API: {apiBaseUrl}
           </Typography>
         </Stack>

@@ -25,9 +25,16 @@ export function Navbar() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.45 }}
           disableGutters
-          sx={{ minHeight: 76, justifyContent: "space-between" }}
+          sx={{
+            minHeight: { xs: 88, sm: 76 },
+            py: { xs: 1.5, sm: 0 },
+            gap: 2,
+            justifyContent: "space-between",
+            alignItems: { xs: "flex-start", md: "center" },
+            flexDirection: { xs: "column", md: "row" },
+          }}
         >
-          <Stack direction="row" spacing={1.5} alignItems="center">
+          <Stack direction="row" spacing={1.5} alignItems="center" sx={{ width: "100%" }}>
             <Box
               sx={{
                 display: "grid",
@@ -45,13 +52,24 @@ export function Navbar() {
               <Typography variant="h6" sx={{ fontWeight: 700, lineHeight: 1.1 }}>
                 MaintenX AI
               </Typography>
-              <Typography variant="caption" color="text.secondary">
+              <Typography
+                variant="caption"
+                color="text.secondary"
+                sx={{ display: "block", pr: { xs: 1, sm: 0 } }}
+              >
                 Predictive Maintenance Dashboard
               </Typography>
             </Box>
           </Stack>
 
-          <Stack direction="row" spacing={1.5} alignItems="center">
+          <Stack
+            direction="row"
+            spacing={1}
+            alignItems="center"
+            useFlexGap
+            flexWrap="wrap"
+            sx={{ width: "100%", justifyContent: { xs: "flex-start", md: "flex-end" } }}
+          >
             <Button color="inherit" component="a" href="#platform">
               Platform
             </Button>
@@ -61,7 +79,11 @@ export function Navbar() {
             <Button color="inherit" component="a" href="#assistant">
               Assistant
             </Button>
-            <Button variant="contained" startIcon={<Sparkles size={16} />}>
+            <Button
+              variant="contained"
+              startIcon={<Sparkles size={16} />}
+              sx={{ width: { xs: "100%", sm: "auto" } }}
+            >
               Live Demo
             </Button>
           </Stack>

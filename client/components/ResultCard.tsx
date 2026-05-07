@@ -33,13 +33,17 @@ export function ResultCard({ prediction, loading = false, error = null }: Result
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.45, delay: 0.08 }}
       whileHover={{ y: -3 }}
-      sx={{ p: { xs: 2.5, md: 3.5 }, borderRadius: 6, boxShadow: "0 24px 70px rgba(0,0,0,0.18)" }}
+      sx={{
+        p: { xs: 2.5, md: 3.5 },
+        borderRadius: { xs: 4, sm: 6 },
+        boxShadow: "0 24px 70px rgba(0,0,0,0.18)",
+      }}
     >
       <Stack spacing={3} aria-live="polite">
         <SectionShell id="platform" eyebrow="Decision Output" title="Prediction Result">
           <></>
         </SectionShell>
-        <Stack direction="row" spacing={1.5} alignItems="center" flexWrap="wrap">
+        <Stack direction="row" spacing={1.5} alignItems="center" useFlexGap flexWrap="wrap">
           <Chip
             label={loading ? "Analyzing" : prediction?.risk_level ?? "Awaiting prediction"}
             color={getChipColor(prediction?.risk_level)}
@@ -83,7 +87,7 @@ export function ResultCard({ prediction, loading = false, error = null }: Result
                 {loading ? (
                   <Skeleton variant="text" sx={{ mt: 1.1, fontSize: "2rem", width: "80%" }} />
                 ) : (
-                  <Typography variant="h4" sx={{ mt: 1.25, fontWeight: 700 }}>
+                  <Typography variant="h4" sx={{ mt: 1.25, fontWeight: 700, overflowWrap: "anywhere" }}>
                     {item.value}
                   </Typography>
                 )}
