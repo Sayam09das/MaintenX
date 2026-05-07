@@ -42,4 +42,4 @@ MaintenX AI is organized as a lightweight full-stack predictive maintenance syst
 
 - Backend: FastAPI on port `8000`
 - Frontend: Next.js on port `3000`
-- CORS enabled for local development origins
+- CORS enabled for local development origins plus configured deployment origins

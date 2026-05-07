@@ -11,15 +11,27 @@ class AppSettings:
         default_factory=lambda: [
             "http://localhost:3000",
             "http://127.0.0.1:3000",
+            "https://mainten-x.vercel.app",
         ]
     )
 
 
+def _parse_cors_origins(raw_value: str | None) -> list[str]:
+    if not raw_value:
+        return []
+
+    return [origin.strip().rstrip("/") for origin in raw_value.split(",") if origin.strip()]
+
+
 def get_settings() -> AppSettings:
-    extra_origin = os.getenv("FRONTEND_ORIGIN")
+    configured_origins = _parse_cors_origins(os.getenv("CORS_ORIGINS"))
+    frontend_origin = os.getenv("FRONTEND_ORIGIN")
     settings = AppSettings()
+    origins = [origin.rstrip("/") for origin in settings.cors_origins]
 
-    if not extra_origin:
-        return settings
+    if frontend_origin:
+        configured_origins.append(frontend_origin.rstrip("/"))
 
-    return AppSettings(cors_origins=[*settings.cors_origins, extra_origin])
+    deduped_origins = list(dict.fromkeys([*origins, *configured_origins]))
+
+    return AppSettings(cors_origins=deduped_origins)
