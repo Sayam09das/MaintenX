@@ -1,50 +1,47 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# MaintenX Client
 
-## Getting Started
+Frontend for the MaintenX predictive maintenance dashboard, built with Next.js, React, MUI, and Framer Motion.
 
-First, run the development server:
+## Features
+
+- Responsive landing and dashboard experience
+- Prediction form connected to the backend API
+- Assistant and explainability sections
+- Production metadata, sitemap, robots, and social preview images
+
+## Local Development
+
+Install dependencies and start the app:
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Open `http://localhost:3000`.
 
 ## Environment
 
-Set the backend URL in `client/.env` using either:
+Create `client/.env` from `client/.env.example` and set the backend URL:
 
 ```bash
-NEXT_PUBLIC_API_URL=https://your-backend-url.onrender.com
+NEXT_PUBLIC_API_URL=https://maintenx-s395.onrender.com
 ```
 
-or
+The client also supports `NEXT_PUBLIC_API_BASE_URL`, but `NEXT_PUBLIC_API_URL` is the primary env name used in this project.
+
+## Scripts
 
 ```bash
-NEXT_PUBLIC_API_BASE_URL=https://your-backend-url.onrender.com
+npm run dev
+npm run build
+npm run start
+npm run lint
 ```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Production Notes
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- `app/layout.tsx` defines SEO and social metadata
+- `app/manifest.ts` provides the web app manifest
+- `app/robots.ts` and `app/sitemap.ts` provide crawl metadata
+- `app/opengraph-image.tsx` and `app/twitter-image.tsx` generate social preview images
