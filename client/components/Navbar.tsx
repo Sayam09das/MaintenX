@@ -81,6 +81,8 @@ export function Navbar() {
             </Button>
             <Button
               variant="contained"
+              component="a"
+              href="#prediction"
               startIcon={<Sparkles size={16} />}
               sx={{ width: { xs: "100%", sm: "auto" } }}
             >

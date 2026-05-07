@@ -38,7 +38,7 @@ export function StatsSection() {
   return (
     <Container maxWidth="xl" sx={{ pb: { xs: 5, md: 6 } }}>
       <SectionShell
-        id="metrics"
+        id="platform"
         eyebrow="Platform Snapshot"
         title="Core Metrics and Reliability Signals"
         description="A compact benchmark and product-readiness layer to help teams quickly understand performance, delivery flow, and AI support status."

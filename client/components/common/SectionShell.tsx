@@ -21,7 +21,12 @@ export function SectionShell({
   id,
 }: SectionShellProps) {
   return (
-    <Box component="section" id={id} aria-labelledby={id ? `${id}-title` : undefined}>
+    <Box
+      component="section"
+      id={id}
+      aria-labelledby={id ? `${id}-title` : undefined}
+      sx={{ scrollMarginTop: { xs: "112px", md: "92px" } }}
+    >
       {chipLabel ? (
         <Chip label={chipLabel} color="secondary" sx={{ mb: 2, fontWeight: 700 }} />
       ) : null}

@@ -30,8 +30,8 @@ export function AssistantCard({ assistant, loading = false, error = null }: Assi
         boxShadow: "0 24px 70px rgba(0,0,0,0.18)",
       }}
     >
-      <Stack spacing={3} aria-live="polite" id="assistant">
-        <SectionShell eyebrow="AI Assistant" title="Maintenance Guidance">
+      <Stack spacing={3} aria-live="polite">
+        <SectionShell id="assistant" eyebrow="AI Assistant" title="Maintenance Guidance">
           <></>
         </SectionShell>
         <Paper variant="outlined" sx={{ p: { xs: 2, sm: 2.5 }, borderRadius: { xs: 3, sm: 4 } }}>

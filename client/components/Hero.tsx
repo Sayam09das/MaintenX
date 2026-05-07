@@ -31,13 +31,22 @@ export function Hero() {
               recommendations in one operator-ready interface.
             </Typography>
             <Stack direction={{ xs: "column", sm: "row" }} spacing={2} sx={{ width: "100%" }}>
-              <Button variant="contained" size="large" fullWidth={false} sx={{ width: { xs: "100%", sm: "auto" } }}>
+              <Button
+                variant="contained"
+                size="large"
+                component="a"
+                href="#prediction"
+                fullWidth={false}
+                sx={{ width: { xs: "100%", sm: "auto" } }}
+              >
                 Run Prediction
               </Button>
               <Button
                 variant="outlined"
                 size="large"
                 color="inherit"
+                component="a"
+                href="#platform"
                 sx={{ width: { xs: "100%", sm: "auto" } }}
               >
                 View API Workflow

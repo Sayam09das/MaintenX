@@ -40,7 +40,7 @@ export function ResultCard({ prediction, loading = false, error = null }: Result
       }}
     >
       <Stack spacing={3} aria-live="polite">
-        <SectionShell id="platform" eyebrow="Decision Output" title="Prediction Result">
+        <SectionShell eyebrow="Decision Output" title="Prediction Result">
           <></>
         </SectionShell>
         <Stack direction="row" spacing={1.5} alignItems="center" useFlexGap flexWrap="wrap">
