@@ -1,73 +1,69 @@
 # MaintenX AI
 
-MaintenX AI is a predictive maintenance system that combines an XGBoost failure prediction model, SHAP-based explainability, a FastAPI backend, and a Next.js frontend for operator-facing risk assessment.
+MaintenX AI is a production-deployed predictive maintenance platform that combines machine failure prediction, explainability, and AI-assisted maintenance guidance in a single full-stack workflow.
 
-## Highlights
+The platform is designed to help teams assess machine risk earlier, reduce unplanned downtime, and turn model output into practical maintenance decisions through a live web interface.
 
-- Predict machine failure probability from live sensor-style inputs.
-- Return human-readable maintenance guidance from the AI assistant layer.
-- Generate SHAP summary plots for feature attribution.
-- Use a clean web dashboard for submitting machine telemetry and reviewing risk.
+## Production Status
 
-## Project Structure
+- Release: `v3.0.0`
+- Frontend: `https://mainten-x.vercel.app`
+- Backend API: `https://maintenx-s395.onrender.com`
+- Deployment State: Stable production release
+
+## Key Capabilities
+
+- Predict machine failure risk from structured operational inputs
+- Return failure probability, risk percentage, and risk level in real time
+- Generate AI-assisted explanations and maintenance recommendations
+- Support explainability-driven decision making with SHAP integration
+- Provide a responsive operator-facing dashboard for live usage
+
+## Live Architecture
+
+- Frontend: Next.js on Vercel
+- Backend: FastAPI on Render
+- Machine Learning Model: XGBoost
+- AI Assistant: Google Gemini
+- Explainability Layer: SHAP
+
+## Product Overview
+
+MaintenX AI connects a modern frontend experience with a deployed ML inference backend. Users submit machine telemetry through the web dashboard, the backend evaluates failure risk using the trained model, and the assistant layer converts the prediction into readable maintenance guidance.
+
+This flow is built for practical industrial monitoring scenarios where teams need more than a raw score. The platform emphasizes prediction visibility, operator trust, and production deployment readiness.
+
+## Repository Structure
 
 ```text
 MaintenX/
-├── Ai system/                         # Python backend, models, reports, docs
-│   ├── src/predictive_maintenance/
-│   │   ├── api/                       # FastAPI app
-│   │   ├── assistant/                 # Risk explanation logic
-│   │   ├── explainability/            # SHAP report generation
-│   │   └── models/                    # Training and prediction scripts
-│   ├── data/                          # Raw, processed, sample datasets
-│   ├── models/                        # Trained model artifacts
-│   └── reports/figures/               # SHAP outputs
-└── client/                            # Next.js frontend
+├── client/                 Frontend application built with Next.js
+├── Ai system/              FastAPI backend, ML pipeline, and AI assistant logic
+├── README.md               Production project overview
+├── Problem Statement       Project problem definition
+└── LICENSE                 Project license
 ```
 
-## Tech Stack
+## Frontend
 
-- Frontend: Next.js 16, React 19, Tailwind CSS 4
-- Backend: FastAPI
-- ML: XGBoost, scikit-learn, pandas, SHAP
-- Model artifacts: `joblib`
+- Framework: Next.js 16
+- UI: React 19, MUI, Framer Motion
+- Hosting: Vercel
+- Includes production metadata, sitemap, robots, and social preview generation
 
-## Local Setup
+Frontend source and setup details are documented in [client/README.md](/Users/sayamdas/Documents/Programming/Mern%20Stack/My%20Website/MaintenX/client/README.md).
 
-### 1. Start the backend
+## Backend
 
-From [`Ai system`](/Users/sayamdas/Documents/Programming/Mern%20Stack/My%20Website/MaintenX/Ai%20system):
+- Framework: FastAPI
+- Hosting: Render
+- Prediction endpoint: `POST /predict`
+- Health endpoint: `GET /health`
+- CORS configured for local development and deployed frontend access
 
-```bash
-source .venv/bin/activate
-uvicorn src.predictive_maintenance.api.main:app --reload
-```
+## API Example
 
-Backend URL:
-
-```text
-http://127.0.0.1:8000
-```
-
-### 2. Start the frontend
-
-From [`client`](/Users/sayamdas/Documents/Programming/Mern%20Stack/My%20Website/MaintenX/client):
-
-```bash
-npm run dev
-```
-
-Frontend URL:
-
-```text
-http://localhost:3000
-```
-
-## API
-
-### `POST /predict`
-
-Example request body:
+### Request
 
 ```json
 {
@@ -85,7 +81,7 @@ Example request body:
 }
 ```
 
-Example response:
+### Response
 
 ```json
 {
@@ -103,26 +99,30 @@ Example response:
 }
 ```
 
-## Model Utilities
+## Local Development
 
-Run XGBoost training:
+### Backend
 
-```bash
-python src/predictive_maintenance/models/xgboost_model.py
-```
-
-Run prediction script:
+From `Ai system/`:
 
 ```bash
-python src/predictive_maintenance/models/predict.py
+source .venv/bin/activate
+uvicorn src.predictive_maintenance.api.main:app --reload
 ```
 
-Generate SHAP reports:
+### Frontend
+
+From `client/`:
 
 ```bash
-python src/predictive_maintenance/explainability/shap_explainer.py
+npm install
+npm run dev
 ```
 
-## Release
+## Problem Statement
 
-Release notes for the first GitHub release are available in [RELEASE_NOTES_v1.0.0.md](/Users/sayamdas/Documents/Programming/Mern%20Stack/My%20Website/MaintenX/RELEASE_NOTES_v1.0.0.md).
+The detailed project motivation and industrial context are documented in [Problem Statement](/Users/sayamdas/Documents/Programming/Mern%20Stack/My%20Website/MaintenX/Problem%20Statement).
+
+## License
+
+This project is licensed under the MIT License. See [LICENSE](/Users/sayamdas/Documents/Programming/Mern%20Stack/My%20Website/MaintenX/LICENSE).
